@@ -59,7 +59,7 @@ druid_indexing_task_basedir : "/var/task"
 druid_indexing_queue_startDelay: PT30S
 
 druid_common_monitors: '"com.metamx.metrics.JvmMonitor","org.apache.druid.java.util.metrics.JvmMonitor"'
-druid_common_emitters: '"logging","graphite"'
+druid_common_emitters: '"logging"'
 
 # druid_graphite_host: "{{ groups['druid-graphite'][0] }}"
 druid_graphite_port : 2004
