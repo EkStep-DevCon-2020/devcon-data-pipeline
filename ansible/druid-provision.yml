@@ -47,14 +47,14 @@
     postgresql_users:
       - name: druid
         db: druid
-        password: "{{ dp_vault_druid_postgress_pass }}"
+        password: "druid"
       - name: graphite
         db: graphite
-        password: "{{ dp_vault_druid_postgress_graphite_pass }}"     
+        password: "graphite"     
   tasks:
     - name: Ensure database is created
       postgresql_db: name="{{ item.name }}" \
-                login_host="{{ postgres.db_url }}" \
+                login_host="localhost" \
                 port="{{ postgres.db_port }}" \
                 login_user="{{ postgres.db_admin_user }}" \
                 login_password="{{ postgres.db_admin_password }}" \
@@ -68,7 +68,7 @@
                   no_password_changes=true \
                   priv=ALL \
                   state=present \
-                  login_host="{{ postgres.db_url }}" \
+                  login_host="localhost" \
                   port="{{ postgres.db_port }}" \
                   login_user="{{ postgres.db_admin_user }}" \
                   login_password="{{ postgres.db_admin_password }}" \
