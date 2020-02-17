@@ -7,7 +7,7 @@
 
 -
   name: Install java and zookeeper cluster for druid
-  hosts: druid-zookeeper
+  hosts: druid
   become: yes
   roles:
     - {role: zookeeper-upgrade}
@@ -77,7 +77,7 @@
 
 - 
   name : Install graphite on druid
-  hosts: druid-graphite
+  hosts: druid
   become: yes
   roles:
     - {role: druid_graphite}
