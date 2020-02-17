@@ -36,44 +36,44 @@
 
 # Create postgres databases and users
 
-- hosts: local
-  gather_facts: no
-  vars_files:
-    - "{{inventory_dir}}/secrets.yml"
-  vars:
-    postgresql_databases:
-      - name: druid
-      - name: graphite
-    postgresql_users:
-      - name: druid
-        db: druid
-        password: "druid"
-      - name: graphite
-        db: graphite
-        password: "graphite"     
-  tasks:
-    - name: Ensure database is created
-      postgresql_db: name="{{ item.name }}" \
-                login_host="localhost" \
-                port="{{ postgres.db_port }}" \
-                login_user="{{ postgres.db_admin_user }}" \
-                login_password="{{ postgres.db_admin_password }}" \
-                encoding='UTF-8' \
-                state=present
-      with_items: "{{ postgresql_databases }}"
+# - hosts: local
+#   gather_facts: no
+#   vars_files:
+#     - "{{inventory_dir}}/secrets.yml"
+#   vars:
+#     postgresql_databases:
+#       - name: druid
+#       - name: graphite
+#     postgresql_users:
+#       - name: druid
+#         db: druid
+#         password: "druid"
+#       - name: graphite
+#         db: graphite
+#         password: "graphite"     
+#   tasks:
+#     - name: Ensure database is created
+#       postgresql_db: name="{{ item.name }}" \
+#                 login_host="localhost" \
+#                 port="{{ postgres.db_port }}" \
+#                 login_user="{{ postgres.db_admin_user }}" \
+#                 login_password="{{ postgres.db_admin_password }}" \
+#                 encoding='UTF-8' \
+#                 state=present
+#       with_items: "{{ postgresql_databases }}"
 
-    - name: Ensure user has access to the database
-      postgresql_user: name="{{ item.name }}" \
-                  password="{{ item.password }}" \
-                  no_password_changes=true \
-                  priv=ALL \
-                  state=present \
-                  login_host="localhost" \
-                  port="{{ postgres.db_port }}" \
-                  login_user="{{ postgres.db_admin_user }}" \
-                  login_password="{{ postgres.db_admin_password }}" \
-                  db="{{ item.db }}"
-      with_items: "{{ postgresql_users }}"
+#     - name: Ensure user has access to the database
+#       postgresql_user: name="{{ item.name }}" \
+#                   password="{{ item.password }}" \
+#                   no_password_changes=true \
+#                   priv=ALL \
+#                   state=present \
+#                   login_host="localhost" \
+#                   port="{{ postgres.db_port }}" \
+#                   login_user="{{ postgres.db_admin_user }}" \
+#                   login_password="{{ postgres.db_admin_password }}" \
+#                   db="{{ item.db }}"
+#       with_items: "{{ postgresql_users }}"
 
 - 
   name : Install graphite on druid
