@@ -1,9 +1,9 @@
--
-  name: Install Java
-  hosts: druid
-  become: yes
-  roles: 
-    - jdk-1.8.0_121
+# -
+#   name: Install Java
+#   hosts: druid
+#   become: yes
+#   roles: 
+#     - jdk-1.8.0_121
 
 -
   name: Install java and zookeeper cluster for druid
