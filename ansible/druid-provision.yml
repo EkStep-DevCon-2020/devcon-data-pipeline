@@ -12,7 +12,7 @@
   roles:
     - {role: zookeeper-upgrade}
   vars:
-    zookeeper_group: "{{ groups['druid-zookeeper'] }}"
+    zookeeper_group: "{{ groups['druid'] }}"
 
 #-
 #  name: Install postgres on druid cluster
