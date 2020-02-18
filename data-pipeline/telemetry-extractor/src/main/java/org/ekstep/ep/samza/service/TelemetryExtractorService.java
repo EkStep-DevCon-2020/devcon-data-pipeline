@@ -70,6 +70,7 @@ public class TelemetryExtractorService {
 					event.put("@timestamp", syncTimestamp);
 					String eid = (String)event.get("eid");
 					if (eid.startsWith("DC_")) {
+						json = new Gson().toJson(event);
 						sink.toDevConSuccessTopic(json);
 					}
 					else {
