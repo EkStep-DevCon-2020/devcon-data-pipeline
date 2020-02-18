@@ -37,6 +37,7 @@
         <module>user-cache-updater</module>
 		<module>content-cache-updater</module>
 		<module>share-events-flattener</module>
+		<module>anomaly-detection</module>		
 	</modules>
 
 	<properties>
