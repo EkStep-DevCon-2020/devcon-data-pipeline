@@ -118,7 +118,7 @@
         </dependency>
         <dependency>
             <groupId>org.ekstep.ecosystem.jobs</groupId>
-            <artifactId>share-events-flattener</artifactId>
+            <artifactId>devcon-denormalization</artifactId>
             <version>0.0.1</version>
             <type>tar.gz</type>
             <classifier>distribution</classifier>
