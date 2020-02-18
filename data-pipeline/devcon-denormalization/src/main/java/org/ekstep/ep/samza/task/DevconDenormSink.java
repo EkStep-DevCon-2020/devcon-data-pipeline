@@ -19,6 +19,11 @@ public class DevconDenormSink extends BaseSink {
 		metrics.incSuccessCounter();
 	}
 
+	public void toSuccessTopic(String key, String eventJson) {
+		toTopic(config.successTopic(), key, eventJson);
+		metrics.incSuccessCounter();
+	}
+
 	public void toFailedTopic(Event event, String failedMessage) {
 		event.markFailure(failedMessage, config);
 		toTopic(config.failedTopic(), event.did(), event.getJson());

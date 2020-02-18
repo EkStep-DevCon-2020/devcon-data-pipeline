@@ -22,6 +22,13 @@ public class Event extends Events {
         return telemetry.<String>read("profileId").value();
     }
 
+    public String stallId() {
+        return telemetry.<String>read("stallId").value();
+    }
+
+    public String ideaId() {
+        return telemetry.<String>read("ideaId").value();
+    }
 
     public void addUserData(Map<String, Object> userData) {
         telemetry.add("profileName", userData.get("name"));
