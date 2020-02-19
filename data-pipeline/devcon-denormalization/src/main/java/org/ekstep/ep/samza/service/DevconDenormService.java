@@ -34,6 +34,14 @@ public class DevconDenormService {
         this.stallDataCache = stallDataCache;
     }
 
+    public Long lastIdeaEts(Map<String, Object> data) {
+        Object ets = data.get("ets");
+        if (ets.getClass().equals(Double.class)) {
+            return ((Double) ets).longValue();
+        }
+        return ((Long) ets);
+    }
+
     public void process(DevconDenormSource source, DevconDenormSink sink) {
         Event event = source.getEvent();
         String eid = event.eid();
@@ -58,11 +66,12 @@ public class DevconDenormService {
                     // UserKey userKey = new UserKey(profileId, stallId, ideaId);
                     if (visitorStallEntry.containsKey(profileId)) {
                         Map<String, Object> data = gson.fromJson(visitorStallEntry.get(profileId), mapType);
-                        Long lastIdeaEntryEts = (long) data.get("ets");
+                        Long lastIdeaEntryEts = lastIdeaEts(data);
                         String lastStallId = (String) data.get("stallId");
                         String lastIdeaId = (String) data.get("ideaId");
 
                         Long currentIdeaEntryEts = event.ets();
+                        LOGGER.info("DevconDenorm", "currentIdeaEntryEts: " + currentIdeaEntryEts + " lastIdeaEntryEts: " + lastIdeaEntryEts);
                         Long timeSpent = (currentIdeaEntryEts - lastIdeaEntryEts)/1000; // In seconds
 
                         Map<String, Object> exitEventMap = new HashMap<>();
