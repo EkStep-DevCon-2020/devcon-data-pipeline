@@ -1,7 +1,7 @@
 package org.ekstep.ep.samza.service;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.ekstep.ep.samza.core.Logger;
 import org.ekstep.ep.samza.domain.Event;
 import org.ekstep.ep.samza.task.DevconDenormConfig;
@@ -49,16 +49,19 @@ public class DevconDenormService {
         String stallId = event.stallId();
         String ideaId = event.ideaId();
         try {
-
-            if (null != stallId) {
-                event.addStallData(stallDataCache.getStallName(stallId));
+            if (null != stallId && !stallId.isEmpty()) {
+                String stallName = stallDataCache.getStallName(stallId);
+                LOGGER.info("Denorm", String.format("stallId %s :: denorm stallName %s", stallId, stallName));
+                event.addStallData(stallName);
             }
 
-            if (null != ideaId) {
-                event.addIdeaData(stallDataCache.getIdeaName(stallId));
+            if (null != ideaId && !ideaId.isEmpty()) {
+                String ideaName = stallDataCache.getIdeaName(ideaId);
+                LOGGER.info("Denorm", String.format("ideaId %s :: denorm ideaName %s", ideaId, ideaName));
+                event.addIdeaData(ideaName);
             }
 
-            if (null != profileId) {
+            if (null != profileId && !profileId.isEmpty()) {
                 Map<String, Object> userData = userDataCache.getUserData(profileId);
                 event.addUserData(userData);
 

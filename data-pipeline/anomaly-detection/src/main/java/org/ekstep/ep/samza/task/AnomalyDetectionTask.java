@@ -28,11 +28,10 @@ import org.ekstep.ep.samza.core.JobMetrics;
 import org.ekstep.ep.samza.core.Logger;
 import org.ekstep.ep.samza.service.AnomalyDetectionService;
 import org.ekstep.ep.samza.util.RedisConnect;
-import redis.clients.jedis.exceptions.JedisException;
 
 public class AnomalyDetectionTask implements StreamTask, InitableTask, WindowableTask {
 
-	static Logger LOGGER = new Logger(AnomalyDetectionTask.class);
+	private static Logger LOGGER = new Logger(AnomalyDetectionTask.class);
 	private AnomalyDetectionConfig config;
 	private JobMetrics metrics;
 	private AnomalyDetectionService service;
@@ -54,7 +53,8 @@ public class AnomalyDetectionTask implements StreamTask, InitableTask, Windowabl
 	@Override
 	public void process(IncomingMessageEnvelope envelope, MessageCollector collector, TaskCoordinator taskCoordinator) throws Exception {
 		AnomalyDetectionSource source = new AnomalyDetectionSource(envelope);
-		service.process(source);
+		AnomalyDetectionSink sink = new AnomalyDetectionSink(collector, metrics, config);
+		service.process(source, sink);
 	}
 
 	@Override

@@ -33,8 +33,7 @@ public class Event extends Events {
     public void addUserData(Map<String, Object> userData) {
         if(null != userData && !userData.isEmpty()) {
             telemetry.add("profileName", userData.get("name"));
-        }
-        else {
+        } else {
             telemetry.add("profileName", profileId());
         }
     }
