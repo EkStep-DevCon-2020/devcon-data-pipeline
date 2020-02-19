@@ -27,18 +27,20 @@ import org.apache.samza.task.TaskCoordinator;
 import org.ekstep.ep.samza.core.JobMetrics;
 import org.ekstep.ep.samza.service.DevconDenormService;
 import org.ekstep.ep.samza.util.RedisConnect;
+import org.ekstep.ep.samza.util.StallDataCache;
 import org.ekstep.ep.samza.util.UserDataCache;
 
 public class DevconDenormTask extends BaseSamzaTask {
 
     private DevconDenormConfig config;
     private UserDataCache userCache;
+    private StallDataCache stallCache;
     private JobMetrics metrics;
     private RedisConnect redisConnect;
     private DevconDenormService service;
 
-    public DevconDenormTask(Config config, TaskContext context, JobMetrics metrics, UserDataCache userCache, RedisConnect redisConnect) {
-        init(config, context, metrics, userCache, redisConnect);
+    public DevconDenormTask(Config config, TaskContext context, JobMetrics metrics, UserDataCache userCache, StallDataCache stallCache, RedisConnect redisConnect) {
+        init(config, context, metrics, userCache, stallCache, redisConnect);
     }
 
     public DevconDenormTask() {
@@ -47,16 +49,17 @@ public class DevconDenormTask extends BaseSamzaTask {
 
     @Override
     public void init(Config config, TaskContext context) {
-        init(config, context, metrics, userCache, redisConnect);
+        init(config, context, metrics, userCache, stallCache, redisConnect);
     }
 
 
-    public void init(Config config, TaskContext context, JobMetrics jobMetrics, UserDataCache userCache, RedisConnect redisConnect) {
+    public void init(Config config, TaskContext context, JobMetrics jobMetrics, UserDataCache userCache, StallDataCache stallCache, RedisConnect redisConnect) {
 
         this.config = new DevconDenormConfig(config);
         this.metrics = jobMetrics == null ? new JobMetrics(context, this.config.jobName()) : jobMetrics;
         this.userCache = userCache == null ? new UserDataCache(config, metrics, redisConnect) : userCache;
-        service = new DevconDenormService(this.config, this.userCache);
+        this.stallCache = stallCache == null ? new StallDataCache() : stallCache;
+        service = new DevconDenormService(this.config, this.userCache, this.stallCache);
         this.initTask(config, metrics);
     }
 

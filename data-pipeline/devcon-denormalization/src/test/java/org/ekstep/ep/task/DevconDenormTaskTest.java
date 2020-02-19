@@ -17,6 +17,7 @@ import org.ekstep.ep.fixture.EventFixture;
 import org.ekstep.ep.samza.core.JobMetrics;
 import org.ekstep.ep.samza.task.DevconDenormTask;
 import org.ekstep.ep.samza.util.RedisConnect;
+import org.ekstep.ep.samza.util.StallDataCache;
 import org.ekstep.ep.samza.util.UserDataCache;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +49,7 @@ public class DevconDenormTaskTest {
     private IncomingMessageEnvelope envelopeMock;
     private Config configMock;
     private UserDataCache userCacheMock;
+    private StallDataCache stallCacheMock;
     private DevconDenormTask deNormalizationTask;
 
     private JobMetrics jobMetrics;
@@ -66,6 +68,7 @@ public class DevconDenormTaskTest {
         envelopeMock = mock(IncomingMessageEnvelope.class);
         configMock = mock(Config.class);
         userCacheMock = mock(UserDataCache.class);
+        stallCacheMock = new StallDataCache();
         RedisConnect redisConnectMock = mock(RedisConnect.class);
         jobMetrics = mock(JobMetrics.class);
 
@@ -85,7 +88,7 @@ public class DevconDenormTaskTest {
                 .toReturn(new SystemStreamPartition("kafka", "dc.events.raw", new Partition(1)));
 
         // UserDataCache userCacheMock = new UserDataCache(configMock, jobMetrics, redisConnectMock);
-        deNormalizationTask = new DevconDenormTask(configMock, contextMock, jobMetrics, userCacheMock, redisConnectMock);
+        deNormalizationTask = new DevconDenormTask(configMock, contextMock, jobMetrics, userCacheMock, stallCacheMock, redisConnectMock);
     }
 
 

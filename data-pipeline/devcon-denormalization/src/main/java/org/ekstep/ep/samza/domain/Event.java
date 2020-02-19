@@ -31,7 +31,20 @@ public class Event extends Events {
     }
 
     public void addUserData(Map<String, Object> userData) {
-        telemetry.add("profileName", userData.get("name"));
+        if(null != userData && !userData.isEmpty()) {
+            telemetry.add("profileName", userData.get("name"));
+        }
+        else {
+            telemetry.add("profileName", profileId());
+        }
+    }
+
+    public void addStallData(String stallName) {
+        telemetry.add("stallName", stallName);
+    }
+
+    public void addIdeaData(String ideaName) {
+        telemetry.add("ideaName", ideaName);
     }
 
     public void markFailure(String error, DevconDenormConfig config) {

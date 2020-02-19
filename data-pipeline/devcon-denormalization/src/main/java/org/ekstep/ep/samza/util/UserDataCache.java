@@ -53,10 +53,15 @@ public class UserDataCache {
         if (null != userDataMap && !userDataMap.isEmpty()) {
             userDataMap.keySet().retainAll(Collections.singletonList("visitorName"));
         } else {
-            Visitor visitor = httpClient.getVisitorInfo(userId);
-            String visitorData = gson.toJson(visitor);
-            redisConnection.set(userId, gson.toJson(visitor));
-            userDataMap = gson.fromJson(visitorData, mapType);
+            try {
+                Visitor visitor = httpClient.getVisitorInfo(userId);
+                String visitorData = gson.toJson(visitor);
+                redisConnection.set(userId, gson.toJson(visitor));
+                userDataMap = gson.fromJson(visitorData, mapType);
+            }
+            catch (Exception e) {
+                LOGGER.error("DevconDenorm", "Exception when denormalizing visitor info" + e.getMessage());
+            }
         }
         return userDataMap;
     }
